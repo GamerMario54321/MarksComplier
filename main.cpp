@@ -8,7 +8,7 @@ int main()
     int students, i, o, sum, gradeA[o], subject;
     double average[o];
     char again = 'y', fileans;
-    string name;
+    string name, subjectname[o];
 
     //while for again input
     while(again == 'y' || again == 'Y')
@@ -21,6 +21,13 @@ int main()
         //Prompting the user to enter the number of subjectd
         cout << "Enter no. of subjects : ";
         cin >> subject;
+
+        //Prompting the user to enter subject name/code
+        for(o = 1; o <= subject; o++)
+        {
+            cout << "Enter name/code for subject " << o << " : ";
+            cin >> subjectname[o];
+        }
 
         //Declaring an array for marks
         int marks[students][subject];
@@ -35,10 +42,10 @@ int main()
         for(o = 1; o <= subject; o++)
         {
             cout << string(50, '\n');
-            cout << "Entering for subject " << o << "\n" << endl;
+            cout << "Entering for " << subjectname[o] << "\n" << endl;
             for(i = 1; i <= students; i++)
             {
-                cout << "Enter marks of student " << i << " for subject " << o <<  " : ";
+                cout << "Enter marks of student " << i << " : ";
                 cin >> marks[i][o];
             }
             cout << string(50, '\n');
@@ -53,7 +60,7 @@ int main()
         for(o = 1; o <= subject; o++)
         {
             //Displaying the marks for each student for reference
-            cout << "Subject " << o << endl;
+            cout << subjectname[o] << endl;
             for(i = 1; i <= students; i++)
             {
                 cout << "student " << i << ": " << marks[i][o] << endl;
@@ -73,7 +80,7 @@ int main()
                 sum = sum + marks[i][o];
             }
             average[o] = sum / students;
-            cout << "The average mark is for subject " << o << " : " << average[o] << endl;
+            cout << "The average mark for " << subjectname[o] << " : " << average[o] << endl;
             /*
 
 
@@ -88,7 +95,7 @@ int main()
                 if(marks[i][o] >= 80)
                 gradeA[o]++;
             }
-            cout << "The no. of Grade A achieved for subject " << o << " : " << gradeA[o] << endl << endl;
+            cout << "The no. of Grade A achieved for " << subjectname[o] << " : " << gradeA[o] << endl << endl;
             system("pause");
             cout << string(50, '\n');
         }
@@ -113,7 +120,7 @@ int main()
             MyFile << "---------------------" << endl;
             for(o = 1; o <= subject; o++)
             {
-                MyFile << "Subject " << o << endl << endl;
+                MyFile << subjectname[o] << endl << endl;
                 for(i = 1; i <= students; i++)
                 {
                     MyFile << "Student " << i << ": " << marks[i][o] << endl;
