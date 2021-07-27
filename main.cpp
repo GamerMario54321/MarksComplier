@@ -74,12 +74,12 @@ int main()
 
             */
             //To find the average from all the marks
-            sum = 0;
+            sum = 0.0;
             for(i = 1; i <= students; i++)
             {
                 sum = sum + marks[i][o];
             }
-            average[o] = sum / students;
+            average[o] = sum / (students*1.0);
             cout << "The average mark for " << subjectname[o] << " : " << average[o] << endl;
             /*
 
