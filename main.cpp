@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <climits>
 using namespace std;
 
 int main()
@@ -17,10 +18,26 @@ int main()
         cout << string(50, '\n');
         cout << "Enter no. of students : ";
         cin >> students;
+        while (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            cout << "You can only enter numbers.\n" << endl;
+            cout << "Enter no. of students : ";
+            cin >> students;
+        }
 
-        //Prompting the user to enter the number of subjectd
+        //Prompting the user to enter the number of subject
         cout << "Enter no. of subjects : ";
         cin >> subject;
+        while (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            cout << "You can only enter numbers.\n" << endl;
+            cout << "Enter no. of subjects : ";
+            cin >> subject;
+        }
 
         //Prompting the user to enter subject name/code
         for(o = 1; o <= subject; o++)
@@ -47,6 +64,14 @@ int main()
             {
                 cout << "Enter marks of student " << i << " : ";
                 cin >> marks[i][o];
+                while (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore(INT_MAX, '\n');
+                    cout << "You can only enter numbers.\n" << endl;
+                    cout << "Enter marks of student " << i << " : ";
+                    cin >> marks[i][o];
+                }
             }
             cout << string(50, '\n');
         }
@@ -110,7 +135,6 @@ int main()
         cout << "\nDo you want to create a Txt file? (y/n) :";
         cin >> fileans;
 
-        //Making a txt file for the results if yes was said
         if(fileans == 'y' || fileans == 'Y')
         {
             cout << "Please name this file : ";
@@ -132,6 +156,10 @@ int main()
             MyFile.close();
             cout << "\nTxt file was created..." << endl;
             cout << "File can be found in your exe folder" << endl;
+        }
+        else
+        {
+            cout << "File not created, everything entered will be lost" << endl;
         }
         /*
 
