@@ -3,16 +3,19 @@
 #include <climits>
 using namespace std;
 
+int students(int stu);
+int subjects(int sub);
+double calculateaverage(double total, int divider);
+
 int main()
 {
-    //The variables
-    int students, i, o, sum, gradeA[o], subject;
-    double average[o];
-    char again = 'y', fileans, ans1;
-    string name, subjectname[o], txtfile;
+    //Variables
+    int num_student, num_subject, o, i, ans1;
+    double sum;
+    char fileans, again = 'y';
+    string name, txtfile;
 
-    //while for again input
-    while(again == 'y' || again == 'Y')
+    while(again == 'y' || again == 'Y') //While loop should program would run again
     {
         //Prompting the user for editing or creating
         cout << string(50, '\n');
@@ -20,45 +23,25 @@ int main()
         cout << "1) Create new folder\n2) Read existing txt file\n" << endl;
         cout << "Enter here : ";
         cin >> ans1;
+        /*
 
-        switch(ans1)
+
+        LINE BREAK
+
+
+        */
+        if(ans1 == 1)
         {
-        case '1':
-            {
             //Prompting the user to enter the number of students
-            cout << string(50, '\n');
-            cout << "Enter no. of students : ";
-            cin >> students;
-            while (cin.fail())
-            {
-                cin.clear();
-                cin.ignore(INT_MAX, '\n');
-                cout << "You can only enter numbers.\n" << endl;
-                cout << "Enter no. of students : ";
-                cin >> students;
-            }
+            num_student = students(num_student);
 
-            //Prompting the user to enter the number of subject
-            cout << "Enter no. of subjects : ";
-            cin >> subject;
-            while (cin.fail())
-            {
-                cin.clear();
-                cin.ignore(INT_MAX, '\n');
-                cout << "You can only enter numbers.\n" << endl;
-                cout << "Enter no. of subjects : ";
-                cin >> subject;
-            }
+            //Prompting the user to enter the number of subjects
+            num_subject = subjects(num_subject);
 
-            //Prompting the user to enter subject name/code
-            for(o = 1; o <= subject; o++)
-            {
-                cout << "Enter name/code for subject " << o << " : ";
-                cin >> subjectname[o];
-            }
-
-            //Declaring an array for marks
-            int marks[students][subject];
+            //Declaring arrays
+            int marks[num_student][num_subject], gradeA[1000];
+            double average[1000];
+            string subjectname[1000];
             /*
 
 
@@ -66,15 +49,56 @@ int main()
 
 
             */
-            //Prompting the user to enter the marks for each students and subject
-            for(o = 1; o <= subject; o++)
+            //Prompting the user to enter subject names
+            for(o = 1; o <= num_subject; o++)
             {
                 cout << string(50, '\n');
-                cout << "Entering for " << subjectname[o] << "\n" << endl;
-                for(i = 1; i <= students; i++)
+                cout << "Enter subject name of subject " << o << " : ";
+                cin >> subjectname[o];
+            }
+            /*
+
+
+            LINE BREAK
+
+
+            */
+            //Prompting the user to enter the marks for the students
+            for(o = 1; o <= num_subject; o++)
+            {
+                cout << string(50, '\n');
+                cout << "Entering for " << subjectname[o] << endl << endl;
+                for(i = 1; i <= num_student; i++)
                 {
-                    cout << "Enter marks of student " << i << " : ";
+                    cout << "Enter marks for student " << i << " : ";
                     cin >> marks[i][o];
+                    while (cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(INT_MAX, '\n');
+                        cout << "You can only enter numbers.\n" << endl;
+                        cout << "Enter marks for student " << i << " : ";
+                        cin >> marks[i][o];
+                    }
+                }
+            }
+            /*
+
+
+            LINE BREAK
+
+
+            */
+            //Displaying the marks, average, and gradeA of students for subjects
+            for(o = 1; o <= num_subject; o++)
+            {
+                sum = 0.0;
+                gradeA[o] = 0;
+                cout << string(50, '\n');
+                cout << subjectname[o] << endl << endl;
+                for(i = 1; i <= num_student; i++)
+                {
+                    cout << "Student " << i << " : " << marks[i][o] << endl;
                     while (cin.fail())
                     {
                         cin.clear();
@@ -83,57 +107,14 @@ int main()
                         cout << "Enter marks of student " << i << " : ";
                         cin >> marks[i][o];
                     }
-                }
-                cout << string(50, '\n');
-            }
-            /*
-
-
-            LINE BREAK
-
-
-            */
-            for(o = 1; o <= subject; o++)
-            {
-                //Displaying the marks for each student for reference
-                cout << subjectname[o] << endl;
-                for(i = 1; i <= students; i++)
-                {
-                    cout << "student " << i << ": " << marks[i][o] << endl;
+                    sum += marks[i][o];
+                    if(marks[i][o] >= 80)
+                        gradeA[o]++;
                 }
                 cout << endl;
-                /*
-
-
-                LINE BREAK
-
-
-                */
-                //To find the average from all the marks
-                sum = 0.0;
-                for(i = 1; i <= students; i++)
-                {
-                    sum = sum + marks[i][o];
-                }
-                average[o] = sum / (students*1.0);
-                cout << "The average mark for " << subjectname[o] << " : " << average[o] << endl;
-                /*
-
-
-                LINE BREAK
-
-
-                */
-                //To find the no. of Grade A from the students marks
-                gradeA[o]=0;
-                for(i = 1; i <= students; i++)
-                {
-                    if(marks[i][o] >= 80)
-                    gradeA[o]++;
-                }
-                cout << "The no. of Grade A achieved for " << subjectname[o] << " : " << gradeA[o] << endl << endl;
+                average[o] = calculateaverage(sum, num_student);
+                cout << "No. of As : " << gradeA[o] << endl << endl;
                 system("pause");
-                cout << string(50, '\n');
             }
             /*
 
@@ -143,9 +124,9 @@ int main()
 
             */
             //Option if they want a Txt file created
+            cout << string(50, '\n');
             cout << "\nDo you want to create a Txt file? (y/n) :";
             cin >> fileans;
-
             if(fileans == 'y' || fileans == 'Y')
             {
                 cout << "Please name this file : ";
@@ -153,10 +134,10 @@ int main()
                 name += string(".txt");
                 ofstream MyFile(name);
                 MyFile << "---------------------" << endl;
-                for(o = 1; o <= subject; o++)
+                        for(o = 1; o <= num_subject; o++)
                 {
                     MyFile << subjectname[o] << endl << endl;
-                    for(i = 1; i <= students; i++)
+                    for(i = 1; i <= num_student; i++)
                     {
                         MyFile << "Student " << i << ": " << marks[i][o] << endl;
                     }
@@ -173,72 +154,76 @@ int main()
             {
                 cout << "File not created, everything entered will be lost" << endl;
             }
-            break;
-            }
-            /*
+            //Prompting the user if he would like to use the program again
+            cout << "\nWould you like to use the program again? (y/n) : ";
+            cin >> again;
+        }
+        /*
 
 
 
 
-
-            LINE BREAK
-
+        LINE BREAK
 
 
 
 
         */
-        case '2':
-            {
+        else if(ans1 == 2)
+        {
             cout << string(50, '\n');
             cout << "Enter name of file : ";
             cin >> name;
             name += string(".txt");
             ifstream MyReadFile(name);
             cout << string(50, '\n');
+
+            //If the file does not exist
+            if(MyReadFile.fail())
+            {
+                cout << "File does not exist" << endl;
+            }
+
+            //If the file exist
+            else
+            {
             cout << "Opening " << name << endl;
+            }
+
+
             while (getline (MyReadFile, txtfile))
             {
                 if(txtfile == "---------------------")
-                    {
+                {
                     cout << endl;
                     system("pause");
                     cout << string(50, '\n');
-                    }
-
+                }
                 else
-                     cout << txtfile << endl;
+                    cout << txtfile << endl;
             }
             MyReadFile.close();
-            break;
-            }
-            /*
-
-
-
-
-
-            LINE BREAK
-
-
-
-
-
-            */
-        default:
-            cout << "Wrong input detected" << endl;
-            break;
+            //Prompting the user if he would like to use the program again
+            cout << "\nWould you like to use the program again? (y/n) : ";
+            cin >> again;
         }
         /*
+
+
 
 
         LINE BREAK
 
 
+
+
         */
-        //Prompting the user if he would like to use the program again
-        cout << "\nWould you like to use the program again? (y/n) : ";
-        cin >> again;
+        else
+        {
+            cout << string(50, '\n');
+            cout << "Wrong input detected. Please only enter correct values" << endl << endl;
+            system("pause");
+        }
     }
 
     //Simple Thank you message
@@ -247,6 +232,43 @@ int main()
     cout << "      Thank You!      " << endl;
     cout << "======================" << endl << endl;
     system("pause");
+}
 
-    return 0;
+int students(int stu)
+{
+    cout << string(50, '\n');
+    cout << "Enter no. of students : ";
+    cin >> stu;
+    while (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "You can only enter numbers.\n" << endl;
+        cout << "Enter no. of students : ";
+        cin >> stu;
+    }
+    return stu;
+}
+
+int subjects(int sub)
+{
+    cout << "Enter no. of subjects : ";
+    cin >> sub;
+    while (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "You can only enter numbers.\n" << endl;
+        cout << "Enter no. of subjects : ";
+        cin >> sub;
+    }
+    return sub;
+}
+
+double calculateaverage(double total, int divider)
+{
+    double average;
+    average = (total*1.0)/(divider*1.0);
+    cout << "Average : " << average << endl;
+    return average;
 }
